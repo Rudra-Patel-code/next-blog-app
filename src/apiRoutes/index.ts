@@ -1,7 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL =
-    process.env.BASE_URL! || "https://next-blog-app-psi-one.vercel.app";
+axios.defaults.baseURL = process.env.BASE_URL! || "http://localhost:3000";
 
 const loginApi = (user: { email: string; password: string }) => {
     return axios.post("/api/user/login", user, { withCredentials: true });
