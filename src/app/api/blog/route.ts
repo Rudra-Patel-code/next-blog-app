@@ -40,7 +40,6 @@ const GET = async (req: NextRequest) => {
             },
         ]);
 
-
         return NextResponse.json({
             success: true,
             message: "Blogs fetched Successfully",
