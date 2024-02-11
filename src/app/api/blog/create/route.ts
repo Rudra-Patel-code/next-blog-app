@@ -30,20 +30,23 @@ const POST = async (req: NextRequest) => {
 
         const buffer = Buffer.from(image, "base64");
 
+        console.log("got here -- 1 ");
         const parser = new DataUriParser();
         const extension = mimeType.split("/")[1];
         const dataUri = parser.format(`.${extension}`, buffer);
+        console.log("got here -- 2 ");
 
         cloudinary.v2.config({
             cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
             api_key: process.env.CLOUDINARY_API_KEY,
             api_secret: process.env.CLOUDINARY_API_SECRET,
         });
-
+        console.log("got here -- 2 ");
         const res = await cloudinary.v2.uploader.upload(dataUri.content!, {
             resource_type: "auto",
         });
-
+        console.log("got here -- 2 ");
+        console.log(res);
         await Blog.create({
             title,
             content: JSON.parse(content),
@@ -60,6 +63,7 @@ const POST = async (req: NextRequest) => {
             data: {},
         });
     } catch (error: any) {
+        console.log(error);
         return NextResponse.json({ error: error.message }, { status: 400 });
     }
 };

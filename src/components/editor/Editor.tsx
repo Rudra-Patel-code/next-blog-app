@@ -1,6 +1,5 @@
 "use client";
 
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
@@ -10,11 +9,27 @@ import { requestHandler } from "@/helper";
 import { createBlogApi } from "@/apiRoutes";
 import toast from "react-hot-toast";
 import { Label } from "../ui/label";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+
+// const ReactQuill = dynamic(import("react-quill"), {
+//     ssr: false,
+//     loading: () => <p>Loading ...</p>,
+// });
+
+const ReactQuill = dynamic(
+    async () => {
+        const { default: RQ } = await import("react-quill");
+        return ({ ...props }: any) => <RQ {...props} />;
+    },
+    {
+        ssr: false,
+    }
+);
 
 const QuillEditor = () => {
     const [content, setContent] = useState("");
     const [title, setTitle] = useState<string>("");
-    const quillRef = useRef<any | null>(null);
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [imagePrev, setImagePrev] = useState<string | null>(null);
@@ -39,8 +54,6 @@ const QuillEditor = () => {
         };
     };
 
-   
-
     const chunkContent = (content: string, chunkSize: number): any => {
         return new Promise((resolve, reject) => {
             try {
@@ -61,7 +74,6 @@ const QuillEditor = () => {
         const resultChunks = await chunkContent(content, 500);
 
         const resultString = JSON.stringify(resultChunks);
-
 
         formData.append("title", title);
         formData.append("content", resultString);
@@ -114,41 +126,38 @@ const QuillEditor = () => {
                 </div>
 
                 <div className="bg-white">
-                    {ReactQuill && (
-                        <ReactQuill
-                            ref={quillRef}
-                            modules={{
-                                toolbar: [
-                                    [{ header: [1, 2, false] }],
-                                    ["bold", "italic", "underline"],
-                                    ["link", "image", "video"],
-                                    ["clean"],
-                                    [{ list: "bullet" }],
-                                    [{ list: "ordered" }],
-                                    [{ align: [] }], // For all alignment options
-                                    // Or individual buttons:
-                                    [{ align: "left" }],
-                                    [{ align: "center" }],
-                                    [{ align: "right" }],
-                                    [{ align: "justify" }],
-                                ],
-                            }}
-                            formats={[
-                                "header",
-                                "bold",
-                                "italic",
-                                "underline",
-                                "list",
-                                "align",
-                                "link",
-                                "image",
-                                "video",
-                            ]}
-                            theme="snow"
-                            value={content}
-                            onChange={handleChange}
-                        />
-                    )}
+                    <ReactQuill
+                        modules={{
+                            toolbar: [
+                                [{ header: [1, 2, false] }],
+                                ["bold", "italic", "underline"],
+                                ["link", "image", "video"],
+                                ["clean"],
+                                [{ list: "bullet" }],
+                                [{ list: "ordered" }],
+                                [{ align: [] }], // For all alignment options
+                                // Or individual buttons:
+                                [{ align: "left" }],
+                                [{ align: "center" }],
+                                [{ align: "right" }],
+                                [{ align: "justify" }],
+                            ],
+                        }}
+                        formats={[
+                            "header",
+                            "bold",
+                            "italic",
+                            "underline",
+                            "list",
+                            "align",
+                            "link",
+                            "image",
+                            "video",
+                        ]}
+                        theme="snow"
+                        value={content}
+                        onChange={handleChange}
+                    />
                 </div>
 
                 <div className="flex justify-end ">
@@ -169,9 +178,11 @@ const QuillEditor = () => {
 
                 {imagePrev && (
                     <div className="max-w-[70%] mx-auto aspect-square">
-                        <img
+                        <Image
                             src={imagePrev}
-                            className="object-cover"
+                            width={250}
+                            height={250}
+                            className="object-cover w-auto h-auto"
                             alt="coverImage"
                         />
                     </div>
