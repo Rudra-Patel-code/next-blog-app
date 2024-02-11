@@ -48,6 +48,8 @@ const Blogcard = ({
     );
 };
 
+Blogcard.displayName = "blogcard";
+
 Blogcard.Skeleton = () => {
     return (
         <div className="p-3 shadow-md flex bg-white rounded-md">

@@ -10,6 +10,8 @@ const CommentCard = ({ comment }: { comment: CommentInterface }) => {
     );
 };
 
+CommentCard.displayName = "CommentCard";
+
 CommentCard.Skeleton = () => {
     return (
         <div className="bg-white p-3 my-2 rounded-lg w-full flex flex-col gap-3">
