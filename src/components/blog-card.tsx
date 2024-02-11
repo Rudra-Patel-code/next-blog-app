@@ -1,5 +1,5 @@
 "use client";
-
+// eslint-disable-next-line react/display-name
 import { Bloginterface } from "@/interfaces/blog";
 import Image from "next/image";
 import { Button } from "./ui/button";

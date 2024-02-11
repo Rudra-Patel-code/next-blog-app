@@ -1,6 +1,6 @@
 import { CommentInterface } from "@/interfaces/blog";
 import { Skeleton } from "../ui/skeleton";
-
+// eslint-disable-next-line react/display-name
 const CommentCard = ({ comment }: { comment: CommentInterface }) => {
     return (
         <div className="bg-white p-3 my-2 rounded-lg">
