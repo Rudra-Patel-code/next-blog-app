@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+const GET = async () => {
     try {
         const response = NextResponse.json({
             message: "Logout successful",
             success: true,
+            data: {},
         });
         response.cookies.set("token", "", {
             httpOnly: true,
@@ -14,4 +15,6 @@ export async function GET() {
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
-}
+};
+
+export { GET };

@@ -1,16 +1,20 @@
 "use client";
 
-import { getMyBlogsApi } from "@/apiRoutes";
+import { getMyBlogsApi, logoutApi } from "@/apiRoutes";
 import Blogcard from "@/components/blog-card";
 import { Button } from "@/components/ui/button";
 import { requestHandler } from "@/helper";
 import { Bloginterface } from "@/interfaces/blog";
+import { CircleDashed } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const MyBlogsPage = () => {
     const [blogs, setBlogs] = useState<Bloginterface[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [isLoggingOut, setisLoggingOut] = useState<boolean>(false);
+    const router = useRouter();
 
     const getMyBlogs = async () => {
         await requestHandler(
@@ -25,10 +29,19 @@ const MyBlogsPage = () => {
         );
     };
 
-
-    const handleLogout = () => {
-
-    }
+    const handleLogout = async () => {
+        await requestHandler(
+            async () => await logoutApi(),
+            setisLoggingOut,
+            (res) => {
+                toast.success(res.message);
+                router.push("/login");
+            },
+            (error) => {
+                toast.error(error);
+            }
+        );
+    };
 
     useEffect(() => {
         getMyBlogs();
@@ -55,8 +68,20 @@ const MyBlogsPage = () => {
 
             {!loading && (
                 <div className="w-full text-center">
-                    <Button onClick={handleLogout} variant={"destructive"} className="mx-auto">
-                        Logout
+                    <Button
+                        onClick={handleLogout}
+                        variant={"destructive"}
+                        className="mx-auto"
+                        disabled={isLoggingOut}
+                    >
+                        {isLoggingOut ? (
+                            <>
+                                <CircleDashed className="animate-spin" />{" "}
+                                Logging out
+                            </>
+                        ) : (
+                            "Logout"
+                        )}
                     </Button>
                 </div>
             )}

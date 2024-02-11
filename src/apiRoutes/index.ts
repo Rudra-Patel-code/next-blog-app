@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.BASE_URL!;
+axios.defaults.baseURL = process.env.BASE_URL! || "http://localhost:3000";
 
 const loginApi = (user: { email: string; password: string }) => {
     return axios.post("/api/user/login", user, { withCredentials: true });
@@ -36,12 +36,15 @@ const addCommentApi = (blogId: string, comment: string) => {
     return axios.post(
         `/api/blog/comment/${blogId}`,
         { comment },
-        { headers: { "Content-Type": "application/json" } }
+        {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+        }
     );
 };
 
-const logoutApi = (blogId: string, comment: string) => {
-    return axios.get(`/api/user/logout/${blogId}`, { withCredentials: true });
+const logoutApi = () => {
+    return axios.get(`/api/user/logout`, { withCredentials: true });
 };
 export {
     loginApi,
@@ -51,4 +54,5 @@ export {
     getSingleBlogDetails,
     getAllBlogsApi,
     addCommentApi,
+    logoutApi,
 };

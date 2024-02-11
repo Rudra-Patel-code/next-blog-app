@@ -10,7 +10,6 @@ const POST = async (
     { params: { blogId } }: { params: { blogId: string } }
 ) => {
     try {
-
         const userId = await getDataFromToken(req);
 
         const user = await User.findById(userId);
@@ -26,13 +25,11 @@ const POST = async (
 
         const { comment } = body;
 
-
         const newComment = await Comment.create({
             comment,
             blogId,
             userId: user._id,
         });
-
 
         return NextResponse.json({
             message: "Comment created successfully",

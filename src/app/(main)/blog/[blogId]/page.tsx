@@ -7,21 +7,16 @@ const getBlogbyId = async (id: string) => {
     try {
         const { data } = await getSingleBlogDetails(id);
 
-        if (!data.success) return undefined;
+        if (!data.success) return [];
 
         return data.data;
     } catch (error) {
-        return undefined;
+        return [];
     }
 };
 
 const page = async ({ params: { blogId } }: { params: { blogId: string } }) => {
     const blog: Bloginterface = await getBlogbyId(blogId);
-
-    if (!blog) {
-        return notFound();
-    }
-
 
     return (
         <>

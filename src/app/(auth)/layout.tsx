@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
     return (
@@ -6,6 +7,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
             <div className="p-5 flex flex-col w-full items-center max-w-[600px]">
                 {children}
             </div>
+            <Toaster />
         </div>
     );
 };

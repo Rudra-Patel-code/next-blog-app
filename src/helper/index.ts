@@ -19,7 +19,11 @@ export const requestHandler = async (
             onSuccess(data);
         }
     } catch (error: any) {
-        onError(error?.response?.data?.error || "Something went wrong");
+        onError(
+            error?.response?.data?.error ||
+                error?.message ||
+                "Something went wrong"
+        );
     } finally {
         setLoading && setLoading(false);
     }

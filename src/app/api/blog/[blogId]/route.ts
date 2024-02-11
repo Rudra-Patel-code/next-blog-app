@@ -8,7 +8,6 @@ const GET = async (
     { params: { blogId } }: { params: { blogId: string } }
 ) => {
     try {
-        console.log(blogId);
 
         const blogs = await Blog.aggregate([
             {
