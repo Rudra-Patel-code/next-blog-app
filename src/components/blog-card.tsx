@@ -2,7 +2,6 @@
 
 import { Bloginterface } from "@/interfaces/blog";
 import Image from "next/image";
-import React from "react";
 import { Button } from "./ui/button";
 import { MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";

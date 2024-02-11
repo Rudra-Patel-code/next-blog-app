@@ -1,5 +1,4 @@
 import { CommentInterface } from "@/interfaces/blog";
-import React from "react";
 import { Skeleton } from "../ui/skeleton";
 
 const CommentCard = ({ comment }: { comment: CommentInterface }) => {
